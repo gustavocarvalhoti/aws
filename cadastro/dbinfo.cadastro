@@ -1,0 +1,8 @@
+<?php
+
+define('DB_SERVER', 'database-1.cgsaefhkgnsu.us-east-1.rds.amazonaws.com');
+define('DB_USERNAME', 'admin');
+define('DB_PASSWORD', 'gutaops2');
+define('DB_DATABASE', 'cadastro');
+
+?>
