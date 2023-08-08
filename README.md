@@ -1,6 +1,6 @@
 <h1>Treinamento AWS:.</h1>
 
-<h2>Pilares:</h2>
+<h2>Pilares</h2>
 <p>
 Segurança. <br>
 Eficiência de performance.<br>
@@ -9,11 +9,11 @@ Excelência operacional.<br>
 Otimização de custos.
 </p>
 
-<h2>É indicado fazer dupla autenticação.</h2>
+<h2>É indicado fazer dupla autenticação</h2>
 
 ![img_5.png](imagens/img_5.png)<br>
 
-<h2>URLS:</h2>
+<h2>URLS</h2>
 <p>
 https://aws.amazon.com/pt/console/<br>
 https://console.aws.amazon.com<br>
@@ -23,7 +23,7 @@ https://www.freenom.com/pt/index.html<br>
 https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html<br>
 </p>
 
-<h2>Significados:</h2>
+<h2>Significados</h2>
 <p>
 RDS: Banco de dados relacional.<br>
 DynamoDB: NoSQL.<br>
@@ -39,8 +39,7 @@ CloudShell - Maquina virtual linux para interagir com o ambiente AWS<br>
 # aws s3 ls <br>
 </p>
 
-<h2>Security Group: A maquina está na AWS, ele é o firewall.</h2>
-
+<h2>Security Group: A maquina está na AWS, ele é o firewall</h2>
 <p>
 
 ![img_1.png](imagens/img_1.png)<br>
@@ -52,14 +51,14 @@ Add a rule HTTP -> 0.0.0.0/0, ::/0<br>
 
 </p>
 
-<h2>Lambda Functions:</h2>
+<h2>Lambda Functions</h2>
 <p>
 - Cria pequenas funções com node.<br>
 - Pode ser container e codigo zip.<br>
 - Selecionei - Basic Info - Scratch - Node.js - Create function - Vai gravar no DynamoDB, verificar o arquivo index.js.<br> 
 </p>
 
-<h2>Mão na massa:</h2>
+<h2>Mão na massa</h2>
 <p>
 Criarei um EC2 (img.png)<br>
 
@@ -67,7 +66,7 @@ Criarei um EC2 (img.png)<br>
 A maquina virtual e disco são cobrados separados.<br>
 </p>
 
-x<h2>Acessar a EC2:</h2>
+<h2>Acessar a EC2</h2>
 <p>
 Selecionar ela no console e depois conectar e selecionar Cliente SSH<br>
 
@@ -118,7 +117,7 @@ Agora podemos criar um EC2 dessa imagem.<br>
 ![img_16.png](imagens/img_16.png)<br>
 </p>
 
-<h2>Liberar comunicação entre duas EC2.</h2>
+<h2>Liberar comunicação entre duas EC2</h2>
 <p>
 Change security groups - Verificar que só tem o de acesso remoto por enquanto. <br>
 
@@ -130,7 +129,7 @@ Agora eles conseguem se comunicar.<br>
 ![img_8.png](imagens/img_8.png)<br>
 </p>
 
-<h2>Atribuir IP Fixo EC2.</h2>
+<h2>Atribuir IP Fixo EC2</h2>
 <p>
 Network & Security - Elastic IPs <br>
 Pode associar a 1 instancia sem cobrar, SE A INSTANCIA ESTIVER STOP SERÁ COBRADO.<br>
@@ -140,7 +139,7 @@ Agora precisa associar so EC2 que deseja.<br>
 ![img_18.png](imagens/img_18.png)
 </p>
 
-<h2>RDS.</h2>
+<h2>RDS</h2>
 <p>
 Create database - Standard create - MySQL - MySQL 5.7.22 - Free tier - Create database <br>
 Acessei o EC2 web-dev2 e dele eu consigo acessar o MySQL - g*****2 <br>
@@ -152,7 +151,7 @@ show databases;
 create database cadastro;
 ````
 
-<h2>EC2 apontando para o RDS:</h2>
+<h2>EC2 apontando para o RDS</h2>
 
 ````
 sudo systemctl stop mariadb                                   <- Parar
@@ -196,19 +195,28 @@ Auto Scaling - Launch Configurations - Create - Selecionar a AMIs<br>
 Se eu terminar um EC2 ele cria outro automaticamente. <br>
 </p>
 
-<h2>Gerenciar ambiente</h2>
+<h2>Gerenciar ambiente com AWS CLI</h2>
 
 ````
+https://www.youtube.com/watch?v=JWYaaAPAL8c&t=0s
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 aws --version
+#Verificar no site da AWS para descobrir o Access key e Secret access key 
+#IAM - Security credentials - Create access key - Retrieve access key
 aws configure
+
 aws ec2 help
-aws ec2 describe-instances | more
+aws ec2 describe-instances | more <- Lista as instancias EC2
 aws ec2 describe-instances --instance-id id-da-instancia
-aws ec2 start-instances --instance-ids i-idddddadas
-aws ec2 stop-instances --instance-ids i-idddddadas
+aws ec2 start-instances --instance-ids i-idddddadas <- Start
+aws ec2 stop-instances --instance-ids i-idddddadas  <- Stop
+
+aws rds describe-db-instances <- Mostras as intancias de RDS
+
+sudo rm -rf /usr/local/bin/aws <- Desinstalar AWS
+sudo rm -rf /usr/local/aws-cli
 ````
 
 <p>
@@ -507,3 +515,20 @@ Agora é só criar o serviço<br>
 Pegar o Ip Publico<br>
 ![img_144.png](imagens/img_144.png)<br>
 </p>
+
+<h2>Lambda em Java</h2>
+<p>
+https://finalexception.blogspot.com/2020/01/aws-api-gateway-e-lambda-parte-1.html<br>
+https://www.baeldung.com/aws-lambda-dynamodb-java<br>
+</p>
+
+````
+aws lambda create-function --function-name Funcao01 --zip-file fileb://LambdaApiGatewayP01-1.0.jar --handler service.lambda.Funcao01::handleRequest --runtime java8 --role arn:aws:iam::974780188439:role/lambda
+
+#Testa a lambda e grava a resposta ma pasta tmp
+aws lambda invoke --function-name Funcao01 --invocation-type RequestResponse /tmp/resposta.txt
+
+#Criar dynamo local
+docker pull instructure/dynamo-local-admin
+docker run -p 8000:8000 -it --rm instructure/dynamo-local-admin
+````

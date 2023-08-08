@@ -1,0 +1,4 @@
+service/lambda/SaveQuestionarioHandler.class
+service/lambda/request/ItemQuestionarioRequest.class
+service/lambda/request/QuestionarioRequest.class
+service/lambda/response/QuestionarioResponse.class

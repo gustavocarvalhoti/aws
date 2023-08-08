@@ -1,0 +1,10 @@
+{
+  "categoria": "residencial",
+  "itens": [
+    {
+      "refQuestao": "resid_tipo_construcao",
+      "ativo": true,
+      "ordem": 1
+    }
+  ]
+}
