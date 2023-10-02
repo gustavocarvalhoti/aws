@@ -254,6 +254,14 @@ Através deste recurso você tem um processo de recover bem simples, bastando ap
 seu snapshot.<br>
 </p>
 
+<h2>Mais sobre Lightsail</h2>
+````
+ssh -i lightsail.rmerces.pem ubuntu@44.205.17.187 <- Conecta utilizando a chave pem
+sudo apt-get update -y <- "-y" para já aprova tudo
+sudo apt-get install nginx
+python3 -m http.server  <- Sobe 1 servidor na porta 8000 para teste, precisa abilitar a rule depois
+````
+
 <h2>Cloud Watch: Monitorar EC2 e aplicações</h2>
 <p>
 Concentra eventos em lote<br>
