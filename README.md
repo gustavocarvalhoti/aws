@@ -39,6 +39,11 @@ CloudShell - Maquina virtual linux para interagir com o ambiente AWS<br>
 # aws s3 ls <br>
 </p>
 
+<h2>Dicas</h2>
+<p>
+namecheap - https://www.namecheap.com <- Dominios com preço bom
+</p>
+
 <h2>Security Group: A maquina está na AWS, ele é o firewall</h2>
 <p>
 
@@ -230,7 +235,7 @@ Criar usuário para o terminal.<br>
 ![img_40.png](imagens/img_40.png)<br>
 </p>
 
-<h2>Amazon Lightsail (Digital Ocean é parecido), configura mais fácil os serviços</h2>
+<h2>Amazon Lightsail (Console da AWS, Digital Ocean é parecido), configura mais fácil os serviços</h2>
 <p>
 Ele monta e sobe muito rápido o ambiente<br>
 A porta 22 é do acesso ssh<br>
