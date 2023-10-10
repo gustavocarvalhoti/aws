@@ -27,7 +27,7 @@ https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html<br
 <p>
 RDS: Banco de dados relacional.<br>
 DynamoDB: NoSQL.<br>
-EC2: Elastic computer - maquina virtual.<br>
+EC2: Elastic computer - Maquina virtual - Nuvem de Computação Elastica<br>
 S3: Armazenamento de arquivos.<br>
 Cognito: Poll de usuários, garantindo as permissões, rules, validação de emails entre outras coisas.<br>
 API Gateway: HTTP Api (Mais simples) - Criar as rotas - Ele cria o endpoint para acessar a Lambda Function.<br>
@@ -49,11 +49,15 @@ namecheap - https://www.namecheap.com <- Dominios com preço bom
 
 ![img_1.png](imagens/img_1.png)<br>
 Key pair: Da acesso a maquina virtual, não perder o arquivo aws-gus.pem<br>
-Add a rule HTTP -> 0.0.0.0/0, ::/0<br>
+0.0.0.0/0 é o acesso geral, qualquer computador pode acessar <br>
+0.0.0.0/0, ::/0**** > Esse funciona para ipv4 e ipv6 <br>
+Add a rule HTTP > 0.0.0.0/0, ::/0<br>
+![img_11.png](imagens/img_11.png)<br>
+![img_12.png](imagens/img_12.png)<br>
 
-![img_11.png](imagens/img_11.png)
-![img_12.png](imagens/img_12.png)
-
+Depois precisa add o sec group a instância <br>
+EC2 - Intâncias - Ações - Segurança - Alterar Grupo de Segurança - Add<br>
+![img_7.png](img_7.png)<br>
 </p>
 
 <h2>Lambda Functions</h2>
@@ -63,36 +67,27 @@ Add a rule HTTP -> 0.0.0.0/0, ::/0<br>
 - Selecionei - Basic Info - Scratch - Node.js - Create function - Vai gravar no DynamoDB, verificar o arquivo index.js.<br> 
 </p>
 
-<h2>Mão na massa</h2>
+<h2>EC2 - Elastic Computer - Nuvem de Computação Elastica</h2>
 <p>
-Criarei um EC2 (img.png)<br>
+t1.micro, t2.micro e t3.micro geração das máquinas<br>
+EC2 - Instâncias - Selecionar a imagem Amazon Linux - t2.micro - gerar o par de chaves .pem <br>
 
 ![img.png](imagens/img_0.png)<br>
 A maquina virtual e disco são cobrados separados.<br>
-</p>
-
-<h2>Acessar a EC2</h2>
-<p>
 Selecionar ela no console e depois conectar e selecionar Cliente SSH<br>
-
 ![img_2.png](imagens/img_2.png)<br>
-
 Copiar a chave para esse diretorio e rodar o comando abaixo<br>
-`chmod 400 aws-gus.pem` (Mudar o acesso de leitura)<br>
-`ssh -i "aws-gus.pem" ec2-user@ec2-34-229-142-62.compute-1.amazonaws.com`<br>
-</p>
+
+````
+chmod 400 aws-gus.pem <- Mudar o acesso de leitura, dar acesso somente para o meu usuário
+ssh -i "aws-gus.pem" ec2-user@ec2-34-229-142-62.compute-1.amazonaws.com
+````
 
 ![img_3.png](imagens/img_3.png)<br>
-
-<h2>É indicado proteger contra encerramento.</h2>
-
+<b>É indicado proteger contra encerramento.</b>
 ![img_4.png](imagens/img_4.png)<br>
-
-<h2>Criar script de inicialização EC2.</h2>
-
-<p>
+<b>Criar script de inicialização EC2.</b><br>
 Advanced Details:<br>
-
 ![img_10.png](imagens/img_10.png)<br>
 
 ````
@@ -111,44 +106,30 @@ chown -R ec2-user:apache /var/www
 
 `netstat -ltun <- Verificar se o que está rodando (Entrar via ssh)` <br><br>
 ![img_9.png](imagens/img_9.png)
-
 Verificando se deu certo (Ele abre a pagina inicial do Apache) -> Public IPv4 address -> 35.175.186.61 <br>
 ![img_13.png](imagens/img_13.png) <br>
-
 Criando uma imagem a partir dessa instancia: image and templates - create image - create image<br>
 Verificar em: Images - AMIs<br>
 ![img_15.png](imagens/img_15.png) <br>
 Agora podemos criar um EC2 dessa imagem.<br>
 ![img_16.png](imagens/img_16.png)<br>
-</p>
-
-<h2>Liberar comunicação entre duas EC2</h2>
-<p>
+<b>Liberar comunicação entre duas EC2</b><br>
 Change security groups - Verificar que só tem o de acesso remoto por enquanto. <br>
-
 ![img_6.png](imagens/img_6.png)<br>
 O grupo default é criado com o EC2 para comunicaçao interna. <br>
 Adicionar o default nos dois EC2. <br>
 ![img_7.png](imagens/img_7.png)<br>
 Agora eles conseguem se comunicar.<br>
 ![img_8.png](imagens/img_8.png)<br>
-</p>
-
-<h2>Atribuir IP Fixo EC2</h2>
-<p>
+<b>Atribuir IP Fixo EC2</b><br>
 Network & Security - Elastic IPs <br>
 Pode associar a 1 instancia sem cobrar, SE A INSTANCIA ESTIVER STOP SERÁ COBRADO.<br>
-
 ![img_17.png](imagens/img_17.png)<br>
 Agora precisa associar so EC2 que deseja.<br>
 ![img_18.png](imagens/img_18.png)
-</p>
-
-<h2>RDS</h2>
-<p>
+<b>RDS - Banco de dados</b><br>
 Create database - Standard create - MySQL - MySQL 5.7.22 - Free tier - Create database <br>
 Acessei o EC2 web-dev2 e dele eu consigo acessar o MySQL - g*****2 <br>
-</p>
 
 ````
 mysql -u admin -h database-1.cgsaefhkgnsu.us-east-1.rds.amazonaws.com -p
@@ -156,7 +137,7 @@ show databases;
 create database cadastro;
 ````
 
-<h2>EC2 apontando para o RDS</h2>
+<b>EC2 apontando para o RDS</b><br>
 
 ````
 sudo systemctl stop mariadb                                   <- Parar
@@ -173,15 +154,12 @@ sudo shutdown -h now    <- Parar linux
 
 ![img_19.png](imagens/img_19.png)
 
-<h2>Escalando</h2>
-<p>
+<b>Escalando</b><br>
 O usuário chega na AWS pela 80 ou 443 e o load balance distribui. <br>
 Você pode gerenciar pela porta 22. <br>
-
 ![img_20.png](imagens/img_20.png)<br>
-
 Load Balancing - Load Balancers - Create Load Balancer - Http/Https<br>
-Selecionar no mínimo duas -><br>
+Selecionar no mínimo duas:<br>
 ![img_21.png](imagens/img_21.png)<br>
 ![img_22.png](imagens/img_22.png)<br>
 Deixar a imagem sem preencher por enquanto, ela será preenchida pelo serviço que escala.
@@ -235,7 +213,7 @@ Criar usuário para o terminal.<br>
 ![img_40.png](imagens/img_40.png)<br>
 </p>
 
-<h2>Amazon Lightsail (Console da AWS, Digital Ocean é parecido), configura mais fácil os serviços</h2>
+<h2>Lightsail (Console da AWS), configura mais fácil os serviços</h2>
 <p>
 Ele monta e sobe muito rápido o ambiente<br>
 A porta 22 é do acesso ssh<br>
@@ -252,15 +230,85 @@ chmod u+x wp1.sh <- Permissão para executar<br>
 É possível criar uma nova instância a partir de um snapshot.<br>
 Através deste recurso você tem um processo de recover bem simples, bastando apenas criar uma nova instância baseada em
 seu snapshot.<br>
+snapshot é uma cópia do ambiente<br/>
+Eu escalo ela utilizando o load balancer
 </p>
 
 <h2>Mais sobre Lightsail</h2>
+
 ````
 ssh -i lightsail.rmerces.pem ubuntu@44.205.17.187 <- Conecta utilizando a chave pem
-sudo apt-get update -y <- "-y" para já aprova tudo
+sudo apt-get update -y <- "-y" para já aprovar tudo
 sudo apt-get install nginx
-python3 -m http.server  <- Sobe 1 servidor na porta 8000 para teste, precisa abilitar a rule depois
+python3 -m http.server      <- Sobe 1 servidor na porta 8000 para teste, precisa abilitar a rule depois
+sudo systemctl anable nginx <- Deixa sempre ativo
+sudo service nginx start    <- Inicia
 ````
+
+<h2>Lightsail: Load Balancer</h2>
+<p>
+Faz o balancemanto da carga, se a maquina cair ele para de enviar para ela<br>
+
+![img.png](img.png)<br>
+Target são as instâncias que eu vou apontar<br>
+![img_1.png](img_1.png)<br>
+Verifica se a instância possui o arquivo server.txt, para verificar se ela está de pé<br>
+![img_2.png](img_2.png)<br>
+</p>
+
+<h2>Lightsail: Metrics, Alarmes</h2>
+<p>
+Caso tenha apenas 1 instância ele envia email ou sms<br>
+
+![img_3.png](img_3.png)
+</p>
+
+<h2>Lightsail: Storage</h2>
+<p>
+<b>Bucket:</b> Google drive, one drive - repositório de objetos, arquivos, backups - mais lento. O nome precisa ser unico<br>
+<b>Disk:</b> Salva as informações para não perder ao reiniciar
+
+![img_4.png](img_4.png)<br>
+
+````
+Para utilizar o disk precisamos formatar
+sudo sfdisc -l          <- lista os dispositivos reconhecidos
+df -h                   <- lista os dispositivos montados
+sudo fdisk /dev/xvdf    <- Aponta para o disco criado acima
+p                       <- Print do que tem no disco
+m                       <- lista as opções
+n                       <- Cria a nova particao
+p                       <- Particao primaria
+1                       <- Numero da particao
+enter
+enter
+p                       <- Print
+w                       <- Gravar na tabela de particao
+sudo sfdisc -l          <- Verificar se deu certo
+sudo mkfs.ext4 /dev/xvdf1   <- Instala o file system para ubuntu
+cd /mnt
+sudo mkdir data             <- Cria a pasta
+sudo mount /dev/xvdf1 /mnt/data/  <- Monta o disco
+sudo vi /etc/fstab      <- Editar para montar ao reiniciar
+/dev/xvdf1  /mnt/data   ext4    defaults    0 1 <- Adicionar essa linha abaixo da linha existente (Seguir o padrão de tab)
+sudo mount -a           <- Lê o fstab e monta os arquivos para testar
+cd mnt
+sudo chown -R ubuntu:ubuntu data    <- Dar permissão na pasta data
+````
+
+</p>
+
+<h2>Lightsail: Containers</h2>
+<p>
+Aponta a imagem do docker hub que vai utilizar <br>
+Essa imagem sobe apenas um http na porta 80 <br>
+Tem a partir de 7$ por mês <br>
+Se mudar a imagem vc pode fazer o redeploy para baixar a nova imagem<br>
+Uma coisa legal que ele guarda as versões que subiram, podendo voltar a versão facilmente<br>
+
+![img_5.png](img_5.png) <br>
+![img_6.png](img_6.png) <br>
+</p>
 
 <h2>Cloud Watch: Monitorar EC2 e aplicações</h2>
 <p>
