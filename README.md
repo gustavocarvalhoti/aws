@@ -104,9 +104,8 @@ usermod -a -G apache ec2-user                                 <- Alterar permiss
 chown -R ec2-user:apache /var/www
 ````
 
-`netstat -ltun <- Verificar se o que está rodando (Entrar via ssh)` <br><br>
-![img_9.png](imagens/img_9.png)
-Verificando se deu certo (Ele abre a pagina inicial do Apache) -> Public IPv4 address -> 35.175.186.61 <br>
+<br>Verificando se deu certo (Ele abre a pagina inicial do Apache) > Public IPv4 address -> 35.175.186.61 <br>
+
 ![img_13.png](imagens/img_13.png) <br>
 Criando uma imagem a partir dessa instancia: image and templates - create image - create image<br>
 Verificar em: Images - AMIs<br>
@@ -126,7 +125,7 @@ Network & Security - Elastic IPs <br>
 Pode associar a 1 instancia sem cobrar, SE A INSTANCIA ESTIVER STOP SERÁ COBRADO.<br>
 ![img_17.png](imagens/img_17.png)<br>
 Agora precisa associar so EC2 que deseja.<br>
-![img_18.png](imagens/img_18.png)
+![img_18.png](imagens/img_18.png)<br>
 <b>RDS - Banco de dados</b><br>
 Create database - Standard create - MySQL - MySQL 5.7.22 - Free tier - Create database <br>
 Acessei o EC2 web-dev2 e dele eu consigo acessar o MySQL - g*****2 <br>
