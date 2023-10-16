@@ -67,7 +67,7 @@ EC2 - Intâncias - Ações - Segurança - Alterar Grupo de Segurança - Add<br>
 - Selecionei - Basic Info - Scratch - Node.js - Create function - Vai gravar no DynamoDB, verificar o arquivo index.js.<br> 
 </p>
 
-<h2>EC2 - Elastic Computer - Nuvem de Computação Elastica</h2>
+<h2>EC2 - Elastic Computer - Nuvem de Computação Elastica (Maquina Virtual)</h2>
 <p>
 t1.micro, t2.micro e t3.micro geração das máquinas<br>
 EC2 - Instâncias - Selecionar a imagem Amazon Linux - t2.micro - gerar o par de chaves .pem <br>
@@ -108,7 +108,9 @@ chown -R ec2-user:apache /var/www
 
 ![img_13.png](imagens/img_13.png) <br>
 Criando uma imagem a partir dessa instancia: image and templates - create image - create image<br>
+O ideal é interromper antes de criar<br>
 Verificar em: Images - AMIs<br>
+
 ![img_15.png](imagens/img_15.png) <br>
 Agora podemos criar um EC2 dessa imagem.<br>
 ![img_16.png](imagens/img_16.png)<br>
@@ -124,7 +126,7 @@ Agora eles conseguem se comunicar.<br>
 Network & Security - Elastic IPs <br>
 Pode associar a 1 instancia sem cobrar, SE A INSTANCIA ESTIVER STOP SERÁ COBRADO.<br>
 ![img_17.png](imagens/img_17.png)<br>
-Agora precisa associar so EC2 que deseja.<br>
+Elastic IP Address: Agora precisa associar so EC2 que deseja.<br>
 ![img_18.png](imagens/img_18.png)<br>
 <b>RDS - Banco de dados</b><br>
 Create database - Standard create - MySQL - MySQL 5.7.22 - Free tier - Create database <br>
@@ -134,6 +136,8 @@ Acessei o EC2 web-dev2 e dele eu consigo acessar o MySQL - g*****2 <br>
 mysql -u admin -h database-1.cgsaefhkgnsu.us-east-1.rds.amazonaws.com -p
 show databases;
 create database cadastro;
+OBS: Para o EC2 enchergar o banco precisamos adicionar o grupo de segurança criado para o RDS
+EC2 - Instâncias - Segurança - Alterar grupos de segurança 
 ````
 
 <b>EC2 apontando para o RDS</b><br>
@@ -187,17 +191,29 @@ sudo ./aws/install
 aws --version
 #Verificar no site da AWS para descobrir o Access key e Secret access key 
 #IAM - Security credentials - Create access key - Retrieve access key
+
 aws configure
+IAM - Add Usuário - Colocar o nome de Usuário - Habilitar Chave de acesso - Colocar as permissões - Criar usuário
+add AWS Access Key Id       = ****                  <- Agora tem o ID
+add Secret Access Key Id    = ****                  <- Agora tem a Secret
+add Default region name     = sa-east-1
+add Default output format   = json 
+
+aws help
+https://awscli.amazonaws.com/v2/documentation/api/latest/reference/index.html
 
 aws ec2 help
-aws ec2 describe-instances | more <- Lista as instancias EC2
-aws ec2 describe-instances --instance-id id-da-instancia
+aws ec2 describe-instances | more                   <- Lista as instancias EC2
+aws ec2 describe-instances --instance-id id-da-instancia <- Filtar os campos
+aws ec2 describe-instances --filters="Name=instance-state-name,Values=running" <- Lista as ezecutando
+aws ec2 describe-instances --filters="Name=instance-state-name,Values=running" --query="Reservations[*].[InstanceId, State] <- Retorna penas InstanceId, State
+
 aws ec2 start-instances --instance-ids i-idddddadas <- Start
-aws ec2 stop-instances --instance-ids i-idddddadas  <- Stop
+aws ec2 stop-instances --instance-ids i-idddddadas  <- Stop 
 
-aws rds describe-db-instances <- Mostras as intancias de RDS
+aws rds describe-db-instances                       <- Mostras as intancias de RDS
 
-sudo rm -rf /usr/local/bin/aws <- Desinstalar AWS
+sudo rm -rf /usr/local/bin/aws                      <- Desinstalar AWS
 sudo rm -rf /usr/local/aws-cli
 ````
 
@@ -452,7 +468,7 @@ def envia_notificacao():
 ![img_24.png](imagens/img_84.png)<br>
 </p>
 
-<h2>Elastic Container Service (Amazon ECS)</h2>
+<h2>ECS - Elastic Container Service - Nossos containers Docker</h2>
 <p>
 4 camadas: <br>
 - Container <br>
