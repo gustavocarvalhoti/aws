@@ -57,7 +57,7 @@ Add a rule HTTP > 0.0.0.0/0, ::/0<br>
 
 Depois precisa add o sec group a instância <br>
 EC2 - Intâncias - Ações - Segurança - Alterar Grupo de Segurança - Add<br>
-![img_7.png](img_7.png)<br>
+![img_7.png](imagens/img_149.png)<br>
 </p>
 
 <h2>Lambda Functions</h2>
@@ -264,18 +264,18 @@ sudo service nginx start    <- Inicia
 <p>
 Faz o balancemanto da carga, se a maquina cair ele para de enviar para ela<br>
 
-![img.png](img.png)<br>
+![img.png](imagens/img145.png)<br>
 Target são as instâncias que eu vou apontar<br>
-![img_1.png](img_1.png)<br>
+![img_1.png](imagens/img_146.png)<br>
 Verifica se a instância possui o arquivo server.txt, para verificar se ela está de pé<br>
-![img_2.png](img_2.png)<br>
+![img_2.png](imagens/img_147.png)<br>
 </p>
 
 <h2>Lightsail: Metrics, Alarmes</h2>
 <p>
 Caso tenha apenas 1 instância ele envia email ou sms<br>
 
-![img_3.png](img_3.png)
+![img_3.png](imagens/img_148.png)
 </p>
 
 <h2>Lightsail: Storage</h2>
@@ -283,7 +283,7 @@ Caso tenha apenas 1 instância ele envia email ou sms<br>
 <b>Bucket:</b> Google drive, one drive - repositório de objetos, arquivos, backups - mais lento. O nome precisa ser unico<br>
 <b>Disk:</b> Salva as informações para não perder ao reiniciar
 
-![img_4.png](img_4.png)<br>
+![img_4.png](imagens/img_150.png)<br>
 
 ````
 Para utilizar o disk precisamos formatar
@@ -321,8 +321,8 @@ Tem a partir de 7$ por mês <br>
 Se mudar a imagem vc pode fazer o redeploy para baixar a nova imagem<br>
 Uma coisa legal que ele guarda as versões que subiram, podendo voltar a versão facilmente<br>
 
-![img_5.png](img_5.png) <br>
-![img_6.png](img_6.png) <br>
+![img_5.png](imagens/img_151.png) <br>
+![img_6.png](imagens/img_152.png) <br>
 </p>
 
 <h2>Cloud Watch: Monitorar EC2 e aplicações</h2>
@@ -485,7 +485,7 @@ Fargate - Paga por tarefa, no EC2 tem mais flexibilidade<br>
 ![img_29.png](imagens/img_89.png)<br>
 Para terminar o serviço não pode ter task<br>
 ![img_45.png](imagens/img_45.png)<br>
-![img.png](img.png)<br>
+![img.png](imagens/img145.png)<br>
 </p>
 
 <h2>Criar cluster EC2</h2>
