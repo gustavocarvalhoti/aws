@@ -11,7 +11,7 @@ Otimização de custos.
 
 <h2>É indicado fazer dupla autenticação</h2>
 
-![img_5.png](imagens/img_5.png)<br>
+![img_5.png](imagens/005.png)<br>
 
 <h2>URLS</h2>
 <p>
@@ -47,13 +47,13 @@ namecheap - https://www.namecheap.com <- Dominios com preço bom
 <h2>Security Group: A maquina está na AWS, ele é o firewall</h2>
 <p>
 
-![img_1.png](imagens/img_1.png)<br>
+![img_1.png](imagens/001.png)<br>
 Key pair: Da acesso a maquina virtual, não perder o arquivo aws-gus.pem<br>
 0.0.0.0/0 é o acesso geral, qualquer computador pode acessar <br>
 0.0.0.0/0, ::/0**** > Esse funciona para ipv4 e ipv6 <br>
 Add a rule HTTP > 0.0.0.0/0, ::/0<br>
-![img_11.png](imagens/img_11.png)<br>
-![img_12.png](imagens/img_12.png)<br>
+![img_11.png](imagens/011.png)<br>
+![img_12.png](imagens/012.png)<br>
 
 Depois precisa add o sec group a instância <br>
 EC2 - Intâncias - Ações - Segurança - Alterar Grupo de Segurança - Add<br>
@@ -72,10 +72,10 @@ EC2 - Intâncias - Ações - Segurança - Alterar Grupo de Segurança - Add<br>
 t1.micro, t2.micro e t3.micro geração das máquinas<br>
 EC2 - Instâncias - Selecionar a imagem Amazon Linux - t2.micro - gerar o par de chaves .pem <br>
 
-![img.png](imagens/img_0.png)<br>
+![img.png](imagens/000.png)<br>
 A maquina virtual e disco são cobrados separados.<br>
 Selecionar ela no console e depois conectar e selecionar Cliente SSH<br>
-![img_2.png](imagens/img_2.png)<br>
+![img_2.png](imagens/002.png)<br>
 Copiar a chave para esse diretorio e rodar o comando abaixo<br>
 
 ````
@@ -83,12 +83,12 @@ chmod 400 aws-gus.pem <- Mudar o acesso de leitura, dar acesso somente para o me
 ssh -i "aws-gus.pem" ec2-user@ec2-34-229-142-62.compute-1.amazonaws.com
 ````
 
-![img_3.png](imagens/img_3.png)<br>
+![img_3.png](imagens/003.png)<br>
 <b>É indicado proteger contra encerramento.</b>
-![img_4.png](imagens/img_4.png)<br>
+![img_4.png](imagens/004.png)<br>
 <b>Criar script de inicialização EC2.</b><br>
 Advanced Details:<br>
-![img_10.png](imagens/img_10.png)<br>
+![img_10.png](imagens/010.png)<br>
 
 ````
 #!/bin/bash                                                   <- Provisionar o ambiente
@@ -106,22 +106,22 @@ chown -R ec2-user:apache /var/www
 
 <br>Verificando se deu certo (Ele abre a pagina inicial do Apache) > Public IPv4 address -> 35.175.186.61 <br>
 
-![img_13.png](imagens/img_13.png) <br>
+![img_13.png](imagens/013.png) <br>
 Criando uma imagem a partir dessa instancia: image and templates - create image - create image<br>
 O ideal é interromper antes de criar<br>
 Verificar em: Images - AMIs<br>
 
-![img_15.png](imagens/img_15.png) <br>
+![img_15.png](imagens/015.png) <br>
 Agora podemos criar um EC2 dessa imagem.<br>
 ![img_16.png](imagens/img_16.png)<br>
 <b>Liberar comunicação entre duas EC2</b><br>
 Change security groups - Verificar que só tem o de acesso remoto por enquanto. <br>
-![img_6.png](imagens/img_6.png)<br>
+![img_6.png](imagens/006.png)<br>
 O grupo default é criado com o EC2 para comunicaçao interna. <br>
 Adicionar o default nos dois EC2. <br>
-![img_7.png](imagens/img_7.png)<br>
+![img_7.png](imagens/007.png)<br>
 Agora eles conseguem se comunicar.<br>
-![img_8.png](imagens/img_8.png)<br>
+![img_8.png](imagens/008.png)<br>
 <b>Atribuir IP Fixo EC2</b><br>
 Network & Security - Elastic IPs <br>
 Pode associar a 1 instancia sem cobrar, SE A INSTANCIA ESTIVER STOP SERÁ COBRADO.<br>
@@ -264,7 +264,7 @@ sudo service nginx start    <- Inicia
 <p>
 Faz o balancemanto da carga, se a maquina cair ele para de enviar para ela<br>
 
-![img.png](imagens/img145.png)<br>
+![img.png](imagens/145.png)<br>
 Target são as instâncias que eu vou apontar<br>
 ![img_1.png](imagens/img_146.png)<br>
 Verifica se a instância possui o arquivo server.txt, para verificar se ela está de pé<br>
@@ -485,7 +485,7 @@ Fargate - Paga por tarefa, no EC2 tem mais flexibilidade<br>
 ![img_29.png](imagens/img_89.png)<br>
 Para terminar o serviço não pode ter task<br>
 ![img_45.png](imagens/img_45.png)<br>
-![img.png](imagens/img145.png)<br>
+![img.png](imagens/145.png)<br>
 </p>
 
 <h2>Criar cluster EC2</h2>
@@ -608,3 +608,100 @@ aws lambda invoke --function-name Funcao01 --invocation-type RequestResponse /tm
 docker pull instructure/dynamo-local-admin
 docker run -p 8000:8000 -it --rm instructure/dynamo-local-admin
 ````
+
+<h2>VPC - Rede virtual privada da AWS </h2>
+<p>
+Configurações de rede<br>
+Subnets = Subredes - Cada uma tem um range de ips<br>
+VPC - Listar VPC Criadas<br>
+Ajustar o Grupo de Segurança - Segurança - Criar Grupo <br>
+
+![img_153.png](imagens/img_153.png)<br>
+
+<b>ACLs da rede - Lista de controles de acesso</b><br>
+Nela podemos adicionar várias regras e adicionar a varias subredes<br>
+![img_154.png](imagens/img_154.png)<br>
+![img_155.png](imagens/img_155.png)<br>
+![img_156.png](imagens/img_156.png)<br>
+Editar - Add regras de entrada - Aceita somente entrada da rede 172.31.0.0/20 que é a sub-rede<br>
+![img_157.png](imagens/img_157.png)<br>
+Agora falta associar - ACL - Associações de sub-rede - Editar - Marcar a sub-rede<br>
+![img_158.png](imagens/img_158.png)<br>
+Precisa configurar a saída tb<br>
+![img_159.png](imagens/img_159.png)<br>
+
+````
+ssh -A -i "aws-ohio.pem" ec2-user@ec2-13-58-7-162.us-east-2.compute.amazonaws.com
+````
+
+Precisa passar o -A para dar acesso para chamar a segunda máquina<br>
+
+````
+ssh ec2-user@172.31.28.109  <- Agora ele consegue conectar na segunda maquina
+````
+
+<b>ACL</b> - Camada de redes - Aplicadas na rede - Para impedir o trafego - Precisa configurar entrada e saída<br>
+<b>Security Group</b> - Aplicada a servico/instância especifica - Statefull (Permite a entrada e saida automático)<br>
+<b>Criando uma sub-rede publica e uma privada para acessar o banco de dados: </b><br>
+sub-rede publica - servidor/app <br>
+sub-rede privada - banco de dados <br>
+VPC - Suas VPCs - Criar VPC - VPC e muito mais - Criar VPC<br>
+![img_160.png](imagens/img_160.png)<br>
+<b>Gateway Nat</b> - Permite o acesso da rede privada para a internet (Cobrado a parte), utilizado para baixar pacotes
+ou atulizar libs<br>
+![img_161.png](imagens/img_161.png)<br>
+![img_162.png](imagens/img_162.png)<br>
+Agora vou criar a instancia web -> sub-rede publica <br>
+EC2 - Instâncias - Iniciar uma instância - linux - t2.micro <br>
+![img_163.png](imagens/img_163.png)<br>
+Selecionar a sub-rede publica que criei - habilitar o ip publico automático<br>
+![img_164.png](imagens/img_164.png)<br>
+Criar um grupo de segurança vazio porque vou definir depois<br>
+![img_165.png](imagens/img_165.png)<br>
+Criar a maquina que possui o banco de dados - linux - t2.micro - selecionar grupo de segurança vazio - Executar
+Instância<br>
+![img_166.png](imagens/img_166.png)<br>
+Agora eu seleciono a sub-rede privada (Somente a aws pode acessar)<br>
+![img_167.png](imagens/img_167.png)<br>
+<b>Configurar permissão da maquina-web</b><br>
+Rede e segurança - criar - apontar para a minha VPC - criar<br>
+![img_168.png](imagens/img_168.png)<br>
+Recebe a entrada ssh de qualquer ip <br>
+![img_169.png](imagens/img_169.png)<br>
+EC2 - Instâncias - maquina-web - açoes - segurança - alterar grupos de segurança - salvar<br>
+![img_170.png](imagens/img_170.png)<br>
+Agora ele consegue acessar <br>
+
+````
+ssh -i "aws-ohio.pem" ec2-user@ec2-18.compute.amazonaws.com <- Conecta na maquina-web OK
+ssh-add ./aws-ohio.pem                          <- Adiciona essa chave ao agente ssh, se ele conseguir ele usa essa chave
+ssh -i ec2-user@ec2-18.compute.amazonaws.com    <- Agora o comando diminui
+ssh -A ec2-user@ec2-18.compute.amazonaws.com    <- Adiciona o agente a conexao
+Na parte abaixou já entrou na maquina-web
+ssh ec2-user@10.0.130.4                         <- Tenta acessar a maquina do banco de dados e da erro porque não tem o grupo de segurança
+````
+
+Criar um grupo ssh-web-bd para resolver esse acesso e remover a regra de saida<br>
+![img_171.png](imagens/img_171.png)<br>
+Na regra de entrada, definir o ip da maquina-web (10.0.12.136) <br>
+![img_172.png](imagens/img_172.png)<br>
+Add o grupo na maquina-bd<br>
+![img_173.png](imagens/img_173.png)<br>
+Agora funciona, agora a maquina-web consegue acessar a maquina-bd<br>
+![img_174.png](imagens/img_174.png)<br>
+
+<b>Transformando a sub-rede privada em publica</b><br>
+![img_175.png](imagens/img_175.png)<br>
+Tabela de rotas, lista de regras se um endereço for acessado ele direciona<br>
+![img_176.png](imagens/img_176.png)<br>
+Ao acessar qualquer coisa ele redireciona para o gateway da internet<br>
+![img_177.png](imagens/img_177.png)<br>
+![img_178.png](imagens/img_178.png)<br>
+Agora precisa associar a sub-rede<br>
+![img_179.png](imagens/img_179.png)<br>
+![img_180.png](imagens/img_180.png)<br>
+Agora consegue acessar a internet e baixar pacotes<br>
+
+
+
+</p>
